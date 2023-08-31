@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PessoaJuridicaService } from 'src/app/service/pessoa-juridica.service';
 import { PersonByApi } from 'src/app/shared/objects/PersonByApi';
+import { PersonLegal } from 'src/app/shared/objects/PersonLegal';
 import { LocalStorageService } from 'src/app/shared/utils/LocalStorageService';
 
 @Component({
@@ -83,7 +84,12 @@ export class RegistrationPersonLegalFormComponent implements OnInit {
   }
 
   savePersonlegal() {
-    const person = this.formCreate.value;
+    const person = this.formCreate.value as PersonLegal;
+    person.razaoSocial = this.personByApi.razaoSocial;
+    person.cidade = this.personByApi.cidade;
+    person.dataCadastro = this.personByApi.dataCadastro;
+    person.situacaoCadastral = this.personByApi.situacaoCadastral;
+    console.log("pessoa", person)
     this.service.savePersonLegal(person).subscribe(
       (response) => {
         alert('Pessoa Juridica criada com sucesso! ID: ' + response.id);
