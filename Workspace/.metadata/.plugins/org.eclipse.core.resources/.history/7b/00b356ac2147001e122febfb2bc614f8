@@ -1,0 +1,48 @@
+package br.com.smartbackend.service.impl;
+
+import org.json.JSONObject;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import br.com.smartbackend.controller.dto.PessoaJuridicaApiDTO;
+import br.com.smartbackend.service.ConsultaCnpjApiService;
+
+@Service
+public class ConsultaCnpjApiServiceImpl implements ConsultaCnpjApiService {
+
+	@Override
+	public PessoaJuridicaApiDTO getPessoaJuridicaByApi(String cnpj) {
+		this.getPessoaJuridicaByApiAndCnpj(cnpj);
+		return null;
+	}
+	
+	private void getPessoaJuridicaByApiAndCnpj(String cnpj) {
+		RestTemplate restTemplate = new RestTemplate();
+		var pessoaJuridica = restTemplate.getForObject("https://publica.cnpj.ws/cnpj/" + cnpj, String.class);
+		this.getObject(pessoaJuridica);
+	}
+	
+	private PessoaJuridicaApiDTO getObject(String json) {
+		
+		
+		
+		
+		JSONObject jsonObject = new JSONObject(json);
+        JSONObject cidade = jsonObject.getJSONObject("estabelecimento");
+        
+        String razaoSocial = jsonObject.getString("razao_social");
+        String nomeCidade = cidade.getJSONObject("cidade").getString("nome");
+        String situacaoCadastral = cidade.getString("situacao_cadastral");
+        String dataInicioAtividade = cidade.getString("data_inicio_atividade");
+
+        System.out.println("Razão Social: " + razaoSocial);
+        System.out.println("Nome da Cidade: " + nomeCidade);
+        System.out.println("Situação Cadastral: " + situacaoCadastral);
+        System.out.println("Data de Início de Atividade: " + dataInicioAtividade);
+		
+		PessoaJuridicaApiDTO dto = new PessoaJuridicaApiDTO();
+		
+		return dto;
+	}
+
+}

@@ -1,0 +1,43 @@
+package br.com.smartbackend.service.impl;
+
+import org.json.JSONObject;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+
+import br.com.smartbackend.controller.dto.PessoaJuridicaApiDTO;
+import br.com.smartbackend.infrastructure.exceptions.HttpRequestGenericsExeptionByApi;
+import br.com.smartbackend.service.ConsultaCnpjApiService;
+
+@Service
+public class ConsultaCnpjApiServiceImpl implements ConsultaCnpjApiService {
+
+	@Override
+	public PessoaJuridicaApiDTO getPessoaJuridicaByApi(String cnpj) {
+		var jsonAsString = this.getPessoaJuridicaByApiAndCnpj(cnpj);
+		return this.getObject(jsonAsString);
+	}
+
+	private String getPessoaJuridicaByApiAndCnpj(String cnpj) {
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			var jsonAsString = restTemplate.getForObject("https://publica.cnpj.ws/cnpj/" + cnpj, String.class);
+			return jsonAsString;
+		} catch (HttpClientErrorException.TooManyRequests ex) {
+			throw new HttpRequestGenericsExeptionByApi(ex.getMessage().substring(80, 212));
+		} catch (HttpClientErrorException.BadRequest ex) {
+			throw new HttpRequestGenericsExeptionByApi(ex.getMessage().substring(75, 88));
+		}
+	}
+
+	private PessoaJuridicaApiDTO getObject(String json) {
+		JSONObject jsonObject = new JSONObject(json);
+		JSONObject estabelecimento = jsonObject.getJSONObject("estabelecimento");
+		var razaoSocial = jsonObject.getString("razao_social");
+		var nomeCidade = estabelecimento.getJSONObject("cidade").getString("nome");
+		var situacaoCadastral = estabelecimento.getString("situacao_cadastral");
+		var dataCadastro = estabelecimento.getString("data_inicio_atividade");
+		return new PessoaJuridicaApiDTO(razaoSocial, nomeCidade, situacaoCadastral, dataCadastro);
+	}
+
+}

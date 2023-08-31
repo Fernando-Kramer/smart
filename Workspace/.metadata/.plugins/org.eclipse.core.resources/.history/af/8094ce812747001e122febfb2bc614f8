@@ -1,0 +1,11 @@
+package br.com.smartbackend.infrastructure.exceptions;
+
+public class TooManyRequestsInApiException extends RuntimeException {
+
+	private static final long serialVersionUID = -5351110809217730952L;
+
+	public TooManyRequestsInApiException(String message) {
+		super(message);
+	}
+
+}

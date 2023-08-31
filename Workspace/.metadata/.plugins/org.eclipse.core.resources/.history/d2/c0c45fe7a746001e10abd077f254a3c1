@@ -1,0 +1,10 @@
+package br.com.smartbackend.service.impl;
+
+import org.springframework.stereotype.Service;
+
+import br.com.smartbackend.service.PessoaJuridicaService;
+
+@Service
+public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
+
+}

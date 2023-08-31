@@ -1,0 +1,17 @@
+package br.com.smartbackend.service.impl;
+
+import org.springframework.stereotype.Service;
+
+import br.com.smartbackend.controller.dto.PessoaJuridicaApiDTO;
+import br.com.smartbackend.service.ConsultaCnpjApiService;
+
+@Service
+public class ConsultaCnpjApiServiceImpl implements ConsultaCnpjApiService {
+
+	@Override
+	public PessoaJuridicaApiDTO getPessoaJuridicaByApi(String cnpj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

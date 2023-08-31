@@ -1,0 +1,39 @@
+package br.com.smartbackend.service.impl;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import br.com.smartbackend.controller.dto.PessoaJuridicaApiDTO;
+import br.com.smartbackend.service.ConsultaCnpjApiService;
+
+@Service
+public class ConsultaCnpjApiServiceImpl implements ConsultaCnpjApiService {
+
+	@Override
+	public PessoaJuridicaApiDTO getPessoaJuridicaByApi(String cnpj) {
+		this.getPessoaJuridicaByApiAndCnpj(cnpj);
+		return null;
+	}
+	
+	private void getPessoaJuridicaByApiAndCnpj(String cnpj) {
+		RestTemplate restTemplate = new RestTemplate();
+		var pessoaJuridica = restTemplate.getForObject("https://publica.cnpj.ws/cnpj/" + cnpj, String.class);
+		String regex = "\"razao_social\"\\s*:\\s*\"([^\"]+)\"";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(pessoaJuridica);
+
+        // Encontra a correspondência e imprime o valor capturado
+        if (matcher.find()) {
+            String razaoSocial = matcher.group(1);
+            System.out.println("Razão Social: " + razaoSocial);
+        } else {
+            System.out.println("Campo razao_social não encontrado.");
+        }
+//		this.getInfo(pessoaJuridica);
+//		System.out.println(pessoaJuridica);
+	}
+
+}

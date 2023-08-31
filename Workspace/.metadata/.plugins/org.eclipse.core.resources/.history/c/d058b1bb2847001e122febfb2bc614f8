@@ -1,0 +1,17 @@
+package br.com.smartbackend.service.impl;
+
+import org.springframework.stereotype.Service;
+
+import br.com.smartbackend.controller.dto.PessoaJuridicaDTO;
+import br.com.smartbackend.service.PessoaJuridicaService;
+
+@Service
+public class PessoaJuridicaServiceImpl implements PessoaJuridicaService {
+
+	@Override
+	public PessoaJuridicaDTO savePessoaJuridicaLocal(PessoaJuridicaDTO dto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

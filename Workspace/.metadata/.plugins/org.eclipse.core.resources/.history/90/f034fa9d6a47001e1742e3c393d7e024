@@ -1,0 +1,17 @@
+package br.com.smartbackend.infrastructure.configurations;
+
+import javax.sql.DataSource;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+
+@Configuration
+public class DatabaseConfig {
+
+	public LocalContainerEntityManagerFactoryBean createDatabaseIfExist(DataSource dataSource) {
+		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(dataSource);
+        em.setPackagesToScan("br.com.smartbackend.entity");
+        return em;
+	}
+}

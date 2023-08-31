@@ -1,0 +1,32 @@
+Projeto cliente servidor, criado para apresentação:
+
+Projeto consiste em uma API 
+	spring boot 3.1.3,
+	Java 17,
+	Docker
+	Angular com servidor Nginx
+	Banco de dados PostgresSql
+
+Para execução do projeto:
+
+	realiza um PULL request de: https://github.com/Fernando-Kramer/smart.git
+
+	após finalizar o PULL acessar a pasta onde se encontra o docker-compose.yml
+
+	Para não dar conflitos caso tenha outras instancias de algo rodando no docker, foi colocado toda a aplicação em uma subnet para separar das demais situações
+	
+	Abra o CMD e Execute o comando 'docker-compose up -d', e deixar que ele faça o resto:
+		primeiramente ele ira realizar o build da aplicação tanto Spring Boot como o Angular
+		em seguida ele ira fazer o download de uma imagem do postgres, e ao iniciar já ira criar a base "smart"
+		para acessar o banco via pgAdmin ou afins (HOST: localhost, PORT: 5432, USERNAME: postgres, PASSWORD: 1234 (é eu sei, 1234, mas é só pra teste mesmo))
+
+	Após a finalização do processo acessar http://localhost:4200, a página inicial deve ser aberta.
+
+
+para uma visão mais ampla irei subir também a minha pasta Workspace (Não tenho o costume de fazer isso) acredito que possa ajudar no entendimento.
+
+Ao iniciar o STS, (Spring Tool Suit ) buscar pela pasta workspace, pode ser que seja necessário importar os projetos novamente.
+
+Neste projeto mais especificamente no back-end foi utilizado o LOMBOK, ou seja sem ele devidamente configurado pode ser que a aplicação não abra corretamente no STS, porem qualquer duvidas estou a disposição.
+
+Fernando Kramer (souza.kramer.fernando@gmail.com)

@@ -1,0 +1,5 @@
+package br.com.smartbackend.controller.dto;
+
+public class PessoaJuridicaApiDTO {
+
+}

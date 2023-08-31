@@ -1,0 +1,7 @@
+package br.com.smartbackend.service;
+
+public interface ConsultaCnpjApiService {
+
+	Object getPessoaJuridicaByApi(String cnpj);
+
+}

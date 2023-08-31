@@ -1,0 +1,38 @@
+package br.com.smartbackend.service.impl;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class DynamicJsonParsing {
+
+	private final String json;
+	
+	public DynamicJsonParsing(String json) {
+		this.json = json;
+	}
+	
+	try {
+        JSONObject jsonObject = new JSONObject(json);
+
+        // Iterar pelas chaves do JSON e imprimir os valores
+        for (String key : jsonObject.keySet()) {
+            Object value = jsonObject.get(key);
+            System.out.println("Chave: " + key + ", Valor: " + value);
+        }
+
+        // Tratamento especial para arrays
+        if (jsonObject.has("telefones")) {
+            JSONArray phonesArray = jsonObject.getJSONArray("telefones");
+            System.out.println("Telefones:");
+            for (int i = 0; i < phonesArray.length(); i++) {
+                String phoneNumber = phonesArray.getString(i);
+                System.out.println("- " + phoneNumber);
+            }
+        }
+    } catch (JSONException e) {
+        e.printStackTrace();
+    }
+
+	
+}

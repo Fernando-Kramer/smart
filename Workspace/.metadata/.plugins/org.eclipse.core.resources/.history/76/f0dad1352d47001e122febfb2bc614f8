@@ -1,0 +1,43 @@
+package br.com.smartbackend.controller.dto;
+
+import br.com.smartbackend.entity.PessoaJuridica;
+import lombok.Data;
+
+@Data
+public class PessoaJuridicaDTO {
+
+	private Long id;
+
+	private String razaoSocial;
+
+	private String cidade;
+
+	private String situacaoCadastral;
+
+	private String endereco;
+
+	private String telefone;
+
+	private String dataCadastro;
+
+	public PessoaJuridicaDTO(PessoaJuridica entity) {
+		this.id = entity.getId();
+		this.razaoSocial = entity.getRazaoSocial();
+		this.cidade = entity.getCidade();
+		this.situacaoCadastral = entity.getSituacaoCadastral();
+		this.endereco = entity.getEndereco();
+		this.telefone = entity.getTelefone();
+		this.dataCadastro = entity.getDataCadastro();
+	}
+
+	public PessoaJuridica converterDtoToEntity() {
+		return new PessoaJuridica(
+				this.razaoSocial, 
+				this.cidade, 
+				this.situacaoCadastral, 
+				this.endereco,
+				this.telefone, 
+				this.dataCadastro);
+	}
+
+}

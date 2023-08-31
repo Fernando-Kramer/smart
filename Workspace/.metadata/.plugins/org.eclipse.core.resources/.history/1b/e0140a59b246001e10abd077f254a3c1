@@ -1,0 +1,53 @@
+package br.com.smartbackend.service.impl;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import br.com.smartbackend.controller.dto.PessoaJuridicaApiDTO;
+import br.com.smartbackend.service.ConsultaCnpjApiService;
+
+@Service
+public class ConsultaCnpjApiServiceImpl implements ConsultaCnpjApiService {
+
+	@Override
+	public PessoaJuridicaApiDTO getPessoaJuridicaByApi(String cnpj) {
+		this.getPessoaJuridicaByApiAndCnpj(cnpj);
+		return null;
+	}
+	
+	private void getPessoaJuridicaByApiAndCnpj(String cnpj) {
+		RestTemplate restTemplate = new RestTemplate();
+		var pessoaJuridica = restTemplate.getForObject("https://publica.cnpj.ws/cnpj/" + cnpj, String.class);
+		// Define a expressão regular para capturar os campos desejados
+        String regex = "\"razao_social\"\\s*:\\s*\"([^\"]+)\",\\s*\"cidade\"\\s*:\\s*\\{\"id\":\\d+,\"nome\":\"([^\"]+)\"";
+        regex += ",\\s*\"situacao_cadastral\"\\s*:\\s*\"([^\"]+)\",\\s*\"atualizado_em\"\\s*:\\s*\"([^\"]+)\"\\}";
+        
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(cnpj);
+
+        // Encontra a correspondência e imprime os valores capturados
+        if (matcher.find()) {
+            String razaoSocial = matcher.group(1);
+            String nomeCidade = matcher.group(2);
+            String situacaoCadastral = matcher.group(3);
+            String dataCadastro = matcher.group(4);
+
+            System.out.println("Razão Social: " + razaoSocial);
+            System.out.println("Nome da Cidade: " + nomeCidade);
+            System.out.println("Situação Cadastral: " + situacaoCadastral);
+            System.out.println("Data de Cadastro: " + dataCadastro);
+        } else {
+            System.out.println("Campos não encontrados.");
+        }
+	}
+	
+	private PessoaJuridicaApiDTO getObject() {
+		PessoaJuridicaApiDTO dto = new PessoaJuridicaApiDTO();
+		
+		return dto;
+	}
+
+}

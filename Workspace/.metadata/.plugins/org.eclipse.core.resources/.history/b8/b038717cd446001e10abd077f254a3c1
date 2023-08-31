@@ -1,0 +1,72 @@
+package br.com.smartbackend.service.impl;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import br.com.smartbackend.controller.dto.PessoaJuridicaApiDTO;
+import br.com.smartbackend.service.ConsultaCnpjApiService;
+
+@Service
+public class ConsultaCnpjApiServiceImpl implements ConsultaCnpjApiService {
+
+	@Override
+	public PessoaJuridicaApiDTO getPessoaJuridicaByApi(String cnpj) {
+		this.getPessoaJuridicaByApiAndCnpj(cnpj);
+		return null;
+	}
+	
+	private void getPessoaJuridicaByApiAndCnpj(String cnpj) {
+		RestTemplate restTemplate = new RestTemplate();
+		var pessoaJuridica = restTemplate.getForObject("https://publica.cnpj.ws/cnpj/" + cnpj, String.class);
+		this.getObject(pessoaJuridica);
+	}
+	
+	private PessoaJuridicaApiDTO getObject(String json) {
+		
+		 String razaoSocialRegex = "\"razao_social\":\\s*\"([^\"]+)\"";
+	        String cidadeNomeRegex = "\"estabelecimento\":\\s*\\{[^\\}]+\"cidade\":\\s*\\{\\s*\"nome\":\\s*\"([^\"]+)\"";
+	        String situacaoCadastralRegex = "\"situacao_cadastral\":\\s*\"([^\"]+)\"";
+	        String dataInicioAtividadeRegex = "\"data_inicio_atividade\":\\s*\"([^\"]+)\"";
+	        
+	        // Compilar as expressões regulares em objetos Pattern
+	        Pattern razaoSocialPattern = Pattern.compile(razaoSocialRegex);
+	        Pattern cidadeNomePattern = Pattern.compile(cidadeNomeRegex);
+	        Pattern situacaoCadastralPattern = Pattern.compile(situacaoCadastralRegex);
+	        Pattern dataInicioAtividadePattern = Pattern.compile(dataInicioAtividadeRegex);
+	        
+	        // Criar um Matcher para encontrar os padrões no JSON
+	        Matcher razaoSocialMatcher = razaoSocialPattern.matcher(json);
+	        Matcher cidadeNomeMatcher = cidadeNomePattern.matcher(json);
+	        Matcher situacaoCadastralMatcher = situacaoCadastralPattern.matcher(json);
+	        Matcher dataInicioAtividadeMatcher = dataInicioAtividadePattern.matcher(json);
+	        
+	        // Encontrar os padrões e extrair os valores dos campos
+	        if (razaoSocialMatcher.find()) {
+	            String razaoSocial = razaoSocialMatcher.group(1);
+	            System.out.println("Razão Social: " + razaoSocial);
+	        }
+	        
+	        if (cidadeNomeMatcher.find()) {
+	            String cidadeNome = cidadeNomeMatcher.group(1);
+	            System.out.println("Cidade Nome: " + cidadeNome);
+	        }
+	        
+	        if (situacaoCadastralMatcher.find()) {
+	            String situacaoCadastral = situacaoCadastralMatcher.group(1);
+	            System.out.println("Situação Cadastral: " + situacaoCadastral);
+	        }
+	        
+	        if (dataInicioAtividadeMatcher.find()) {
+	            String dataInicioAtividade = dataInicioAtividadeMatcher.group(1);
+	            System.out.println("Data Início Atividade: " + dataInicioAtividade);
+	        }
+		
+		PessoaJuridicaApiDTO dto = new PessoaJuridicaApiDTO();
+		
+		return dto;
+	}
+
+}
