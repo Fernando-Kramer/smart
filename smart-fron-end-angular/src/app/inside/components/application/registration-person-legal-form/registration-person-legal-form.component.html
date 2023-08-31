@@ -1,0 +1,64 @@
+<form class="container" [formGroup]="formCreate">
+
+  <div class="row">
+    <div class="col-2">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label class="disabled">Código</mat-label>
+        <input style="color: rgb(43, 43, 43);" matInput formControlName="id">
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label class="disabled">Razão Social</mat-label>
+        <input style="color: rgb(43, 43, 43);" matInput formControlName="razaoSocial">
+      </mat-form-field>
+    </div>
+    <div class="col-2">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label class="disabled">Situação Cadastral</mat-label>
+        <input style="color: rgb(43, 43, 43);" matInput formControlName="situacaoCadastral">
+      </mat-form-field>
+    </div>
+    <div class="col-2">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label class="disabled">Data de Cadastro</mat-label>
+        <input style="color: rgb(43, 43, 43);" matInput formControlName="dataCadastro">
+      </mat-form-field>
+    </div>
+    <div class="col-3">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label class="disabled">Cidade</mat-label>
+        <input style="color: rgb(43, 43, 43);" matInput formControlName="cidade">
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Endereço</mat-label>
+        <input matInput formControlName="endereco" placeholder="Rua, Número, Bairro">
+        <mat-error *ngIf="formCreate.get('endereco')?.hasError('required')">Endereço é obrigatório.</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="col-3">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Telefone</mat-label>
+        <input matInput formControlName="telefone" appMask>
+        <mat-error *ngIf="formCreate.get('telefone')?.hasError('required')">Telefone é obrigatório.</mat-error>
+        <mat-error *ngIf="formCreate.get('telefone')?.hasError('minlength')">Telefone inválido.</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <section>
+    <div class="example-button-row">
+      <button type="reset" mat-raised-button color="warn" (click)="returnToSearch()">
+        <mat-icon>keyboard_return</mat-icon>
+        Cancelar
+      </button>
+      <button mat-raised-button color="primary" (click)="savePersonlegal()" [disabled]="formCreate.invalid">
+        <mat-icon>save_alt</mat-icon>
+        Salvar
+      </button>
+    </div>
+  </section>
+
+</form>

@@ -1,0 +1,14 @@
+.principal {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  width: 300px;
+}
+.full-width {
+  width: 100%;
+}

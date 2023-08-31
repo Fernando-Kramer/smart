@@ -1,0 +1,43 @@
+version: '3'
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: smart
+    ports:
+      - "5432:5432"
+    restart: always
+    networks:
+      - custom_network
+
+  spring-app:
+    build:
+      context: ./smart-back-end
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: smart
+      DB_USERNAME: postgres
+      DB_PASSWORD: 1234
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - custom_network 
+
+  angular_app:
+    build:
+      context: ./smart-fron-end-angular
+      dockerfile: Dockerfile
+    environment:
+      - URL_BASE=http://localhost:8080
+    ports:
+      - "4200:80"
+
+networks:
+  custom_network:
+    driver: bridge
